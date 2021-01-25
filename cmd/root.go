@@ -9,7 +9,7 @@ import (
 )
 
 var (
-	codeArray *[]string
+	codeArray []string
 
 	rootCmd = &cobra.Command{
 		Use:   "cobra",
@@ -22,11 +22,12 @@ to quickly create a Cobra application.`,
 
 // Execute executes the root command.
 func Execute() error {
+
+	rootCmd.PersistentFlags().StringSliceVar(&codeArray, "c", make([]string, 0), "code array")
 	return rootCmd.Execute()
 }
 
 func init() {
-	codeArray = rootCmd.Flags().StringArrayP("codeArray", "c", make([]string, 0), "code array")
 	cobra.OnInitialize(initConfig)
 
 }
