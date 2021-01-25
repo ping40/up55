@@ -16,3 +16,8 @@ func Write(fileName, content string) error {
 
 	return nil
 }
+
+func FileExists(fullFileName string) bool {
+	_, err := os.Lstat(fullFileName)
+	return !os.IsNotExist(err)
+}

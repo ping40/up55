@@ -3,6 +3,8 @@ package cmd
 import (
 	"fmt"
 
+	"github.com/ping40/up55/fetch"
+
 	"github.com/spf13/cobra"
 )
 
@@ -18,5 +20,8 @@ var fetchCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("fetch args:", len(codeArray))
 		fmt.Println("fetch args:", codeArray)
+		for _, v := range codeArray {
+			fetch.Fetch(v)
+		}
 	},
 }
