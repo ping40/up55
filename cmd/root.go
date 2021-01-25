@@ -9,6 +9,8 @@ import (
 )
 
 var (
+	codeArray *[]string
+
 	rootCmd = &cobra.Command{
 		Use:   "cobra",
 		Short: "A generator for Cobra based Applications",
@@ -24,7 +26,9 @@ func Execute() error {
 }
 
 func init() {
+	codeArray = rootCmd.Flags().StringArrayP("codeArray", "c", make([]string, 0), "code array")
 	cobra.OnInitialize(initConfig)
+
 }
 
 func er(msg interface{}) {
