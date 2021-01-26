@@ -164,7 +164,7 @@ func genROE(f *excelize.File, columns int, zcfzbResult [][]string, lrbResult [][
 func getAROE(s1 string, s2 string) string {
 	s1f, e1 := strconv.ParseFloat(s1, 10)
 	s2f, e2 := strconv.ParseFloat(s2, 10)
-	if e1 == nil && e2 == nil {
+	if e1 == nil && e2 == nil && s1f > 0 {
 		return fmt.Sprintf("%.2f%%", 100*s2f/s1f)
 	}
 	return "--"
