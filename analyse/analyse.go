@@ -2,13 +2,9 @@ package analyse
 
 import (
 	"encoding/csv"
-	"fmt"
 	"io"
 	"os"
 	"path/filepath"
-
-	"github.com/360EntSecGroup-Skylar/excelize/v2"
-	iconv "github.com/djimenez/iconv-go"
 
 	"github.com/ping40/up55/util"
 )
@@ -35,24 +31,7 @@ func Anaylse(code string) {
 		panic(err)
 	}
 
-	fmt.Println("zcfzbResult[0]:  ", zcfzbResult[0])
-	fmt.Println("lrbResult[0]:  ", lrbResult[0])
-	fmt.Println("xjllbResult[0]:  ", xjllbResult[0])
-
-	f, err := excelize.OpenFile(filepath.Join(dataDir, fileName))
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-
-	// Get all the rows in the Sheet1.
-	rows, err := f.GetRows("Sheet1")
-	for _, row := range rows {
-		for _, colCell := range row {
-			fmt.Print(colCell, "\t")
-		}
-		fmt.Println()
-	}
+	genHumanRead(code, zcfzbResult, lrbResult, xjllbResult)
 }
 
 func csvRead(fullFileName string) (error, [][]string) {
@@ -82,18 +61,12 @@ func csvRead(fullFileName string) (error, [][]string) {
 
 		row := make([]string, 0)
 
-		fmt.Printf("Record has %d columns.\n", len(record))
-		city, _ := iconv.ConvertString(record[0], "gb2312", "utf-8")
-
-		fmt.Print(" city: ", city)
-		row = append(row, city)
+		row = append(row, record[0])
 		for i, v := range record {
 			if i > 0 {
-				fmt.Printf("%s,", v)
 				row = append(row, v)
 			}
 		}
-		fmt.Println("")
 
 		result = append(result, row)
 	}

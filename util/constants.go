@@ -35,6 +35,11 @@ func MakeDataDirectory() string {
 func MakeZCFZBFileName(code string) string {
 	return ZCFZB + code + ".csv"
 }
+
+func MakeHumanReadFileName(code string) string {
+	return filepath.Join(currentDir, DataDirectory, "humanread_"+code+".xlsx")
+}
+
 func MakeZCFZBURL(code string) string {
 	return "http://quotes.money.163.com/service/" + ZCFZB + "_" + code + ".html?type=year"
 }
