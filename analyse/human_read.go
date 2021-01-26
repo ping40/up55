@@ -19,11 +19,20 @@ func genHumanRead(code string, zcfzbResult, lrbResult, xjllbResult [][]string) {
 	f := excelize.NewFile()
 	f.SetColWidth("Sheet1", "A", "Z", 15)
 
+	//第一行
 	myC := NewColumn()
 	f.SetCellValue("Sheet1", myC.String(1), "时间数据")
 	for i := 0; i < columns; i++ {
 		f.SetCellValue("Sheet1", myC.String(1), zcfzbResult[0][i+1])
-		fmt.Println("ok: ", i, zcfzbResult[0][i+1])
+	}
+
+	//第二行 总资产
+	myC = NewColumn()
+	f.SetCellValue("Sheet1", myC.String(2), zzc)
+	rIndex := getRowIndex(zzc, zcfzbResult)
+
+	for i := 0; i < columns; i++ {
+		f.SetCellValue("Sheet1", myC.String(2), zcfzbResult[rIndex][i+1])
 	}
 
 	// Set active sheet of the workbook.
@@ -37,9 +46,11 @@ func genHumanRead(code string, zcfzbResult, lrbResult, xjllbResult [][]string) {
 
 func getRowIndex(columnKey string, result [][]string) int {
 	for i := 0; i < len(result); i++ {
+		fmt.Println("all key:", result[i][0])
 		if result[i][0] == columnKey {
 			return i
 		}
 	}
-	return -1
+	fmt.Println("找不到 关键词： ", columnKey)
+	panic("找不到 关键词： ")
 }

@@ -6,6 +6,8 @@ import (
 	"os"
 	"path/filepath"
 
+	"github.com/axgle/mahonia"
+
 	"github.com/ping40/up55/util"
 )
 
@@ -35,6 +37,9 @@ func Anaylse(code string) {
 }
 
 func csvRead(fullFileName string) (error, [][]string) {
+	var enc mahonia.Decoder
+	enc = mahonia.NewDecoder("gbk")
+
 	// Open the file
 	csvfile, err := os.Open(fullFileName)
 	if err != nil {
@@ -65,7 +70,11 @@ func csvRead(fullFileName string) (error, [][]string) {
 			if i == len(record)-1 && v == "" {
 				break
 			}
+			if i == 0 {
+				v = enc.ConvertString(v)
+			}
 			row = append(row, v)
+
 		}
 
 		result = append(result, row)
