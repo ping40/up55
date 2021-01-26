@@ -12,21 +12,34 @@ const (
 )
 
 func genHumanRead(code string, zcfzbResult, lrbResult, xjllbResult [][]string) {
-	columns := len(zcfzbResult)
+	columns := len(zcfzbResult[0]) - 1
 
 	fullFileName := util.MakeHumanReadFileName(code)
 
 	f := excelize.NewFile()
-	// Create a new sheet.
-	index := f.NewSheet("Sheet2")
-	// Set value of a cell.
-	f.SetCellValue("Sheet2", "A2", "Hello world.")
-	f.SetCellValue("Sheet1", "B2", columns)
+	f.SetColWidth("Sheet1", "A", "Z", 15)
+
+	myC := NewColumn()
+	f.SetCellValue("Sheet1", myC.String(1), "时间数据")
+	for i := 0; i < columns; i++ {
+		f.SetCellValue("Sheet1", myC.String(1), zcfzbResult[0][i+1])
+		fmt.Println("ok: ", i, zcfzbResult[0][i+1])
+	}
+
 	// Set active sheet of the workbook.
-	f.SetActiveSheet(index)
+
 	// Save spreadsheet by the given path.
 	if err := f.SaveAs(fullFileName); err != nil {
 		fmt.Println(err)
 		panic(err)
 	}
+}
+
+func getRowIndex(columnKey string, result [][]string) int {
+	for i := 0; i < len(result); i++ {
+		if result[i][0] == columnKey {
+			return i
+		}
+	}
+	return -1
 }

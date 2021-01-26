@@ -61,11 +61,11 @@ func csvRead(fullFileName string) (error, [][]string) {
 
 		row := make([]string, 0)
 
-		row = append(row, record[0])
 		for i, v := range record {
-			if i > 0 {
-				row = append(row, v)
+			if i == len(record)-1 && v == "" {
+				break
 			}
+			row = append(row, v)
 		}
 
 		result = append(result, row)

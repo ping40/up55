@@ -1,21 +1,18 @@
 package analyse
 
+import "strconv"
+
 var chars string = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
 type myColumn struct {
 	val int
 }
 
-func (this *myColumn) Next() *myColumn {
-	this.val += 1
-	return this
-}
-
 func NewColumn() *myColumn {
 	return &myColumn{}
 }
 
-func (this *myColumn) String() string {
+func (this *myColumn) String(rows int) string {
 	yu := this.val % 26
 	k := this.val / 26
 	arrs := make([]string, 0)
@@ -30,6 +27,9 @@ func (this *myColumn) String() string {
 	for end := 0; end < len(arrs); end++ {
 		str = arrs[end] + str
 	}
+	str += strconv.Itoa(rows)
+
+	this.val += 1
 
 	return str
 
