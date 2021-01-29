@@ -28,8 +28,11 @@ func genHumanRead(code string, zcfzbResult, lrbResult, xjllbResult [][]string) {
 	f.SetColWidth("Sheet1", "A", "Z", 14)
 	valMap := map[string][]string{}
 
-	genROE(f, columns, zcfzbResult, lrbResult, valMap)
-	genShare(f, columns, zcfzbResult, lrbResult, 15)
+	row := 1
+	genROE(f, columns, zcfzbResult, lrbResult, valMap, row)
+
+	row = 15
+	genShare(f, columns, zcfzbResult, lrbResult, row)
 	// Set active sheet of the workbook.
 
 	// Save spreadsheet by the given path.
