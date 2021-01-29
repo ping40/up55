@@ -132,3 +132,11 @@ func getAROE(s1 string, s2 string) string {
 	}
 	return "--"
 }
+
+func getInt64(s string) int64 {
+	if i, err := strconv.ParseInt(s, 10, 64); err != nil {
+		return 0
+	} else {
+		return i
+	}
+}

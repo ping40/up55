@@ -35,6 +35,10 @@ func genHumanRead(code string, zcfzbResult, lrbResult, xjllbResult [][]string) {
 	genShare(f, columns, zcfzbResult, lrbResult, row)
 	// Set active sheet of the workbook.
 
+	//资产
+	row = 20
+	genAsset(f, columns, zcfzbResult, lrbResult, valMap, row)
+
 	// Save spreadsheet by the given path.
 	if err := f.SaveAs(fullFileName); err != nil {
 		fmt.Println(err)
