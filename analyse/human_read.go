@@ -39,6 +39,10 @@ func genHumanRead(code string, zcfzbResult, lrbResult, xjllbResult [][]string) {
 	row = 20
 	genAsset(f, columns, zcfzbResult, lrbResult, valMap, row)
 
+	//资产
+	row = 33
+	genDebt(f, columns, zcfzbResult, lrbResult, valMap, row)
+
 	// Save spreadsheet by the given path.
 	if err := f.SaveAs(fullFileName); err != nil {
 		fmt.Println(err)
