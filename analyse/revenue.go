@@ -5,66 +5,65 @@ import (
 )
 
 const (
-	DEBT_TOTAL            = "负债合计(万元)"
-	DEBT_SHORT            = "短期借款(万元)"
-	DEBT_LONG             = "长期借款(万元)"
-	DEBT_WILL_PAY_INVOICE = "应付票据(万元)"
-	DEBT_WILL_PAY_MONEY   = "应付账款(万元)"
+	REVENUE_TOTAL = "营业总收入(万元)"
+	COST_SALE     = "销售费用(万元)"
+	COST_MANAGE   = "管理费用(万元)"
+	COST_FIN      = "财务费用(万元)"
+	COST_RD       = "研发费用(万元)"
 )
 
-func genDebt(f *excelize.File, columns int, zcfzbResult [][]string, lrbResult [][]string, valMap map[string][]string, row int) {
+func genRevenue(f *excelize.File, columns int, zcfzbResult [][]string, lrbResult [][]string, valMap map[string][]string, row int) {
 	//DEBT_TOTAL = "负债合计(万元)"
 	myC := NewColumn()
-	f.SetCellValue("Sheet1", myC.String(row), DEBT_TOTAL)
-	rIndex := getRowIndex(DEBT_TOTAL, zcfzbResult)
-	debtTotalList := zcfzbResult[rIndex]
-	valMap[DEBT_TOTAL] = debtTotalList
+	f.SetCellValue("Sheet1", myC.String(row), REVENUE_TOTAL)
+	rIndex := getRowIndex(REVENUE_TOTAL, lrbResult)
+	revenueTotalList := lrbResult[rIndex]
+	valMap[REVENUE_TOTAL] = revenueTotalList
 	for i := 0; i < columns; i++ {
-		f.SetCellValue("Sheet1", myC.String(row), debtTotalList[i+1])
+		f.SetCellValue("Sheet1", myC.String(row), revenueTotalList[i+1])
 	}
 
-	//DEBT_SHORT = "短期借款(万元)"
+	//	COST_SALE     = "销售费用(万元)"
 	row++
 	myC = NewColumn()
-	f.SetCellValue("Sheet1", myC.String(row), DEBT_SHORT)
-	rIndex = getRowIndex(DEBT_SHORT, zcfzbResult)
-	debtShortList := zcfzbResult[rIndex]
-	valMap[DEBT_SHORT] = debtShortList
+	f.SetCellValue("Sheet1", myC.String(row), COST_SALE)
+	rIndex = getRowIndex(COST_SALE, lrbResult)
+	costSaleList := lrbResult[rIndex]
+	valMap[COST_SALE] = costSaleList
 	for i := 0; i < columns; i++ {
-		f.SetCellValue("Sheet1", myC.String(row), debtShortList[i+1])
+		f.SetCellValue("Sheet1", myC.String(row), costSaleList[i+1])
 	}
 
-	//DEBT_LONG = "长期借款(万元)"
+	//	COST_MANAGE   = "管理费用(万元)"
 	row++
 	myC = NewColumn()
-	f.SetCellValue("Sheet1", myC.String(row), DEBT_LONG)
-	rIndex = getRowIndex(DEBT_LONG, zcfzbResult)
-	debtLongList := zcfzbResult[rIndex]
-	valMap[DEBT_LONG] = debtLongList
+	f.SetCellValue("Sheet1", myC.String(row), COST_MANAGE)
+	rIndex = getRowIndex(COST_MANAGE, lrbResult)
+	costManageList := lrbResult[rIndex]
+	valMap[COST_MANAGE] = costManageList
 	for i := 0; i < columns; i++ {
-		f.SetCellValue("Sheet1", myC.String(row), debtLongList[i+1])
+		f.SetCellValue("Sheet1", myC.String(row), costManageList[i+1])
 	}
 
-	//	DEBT_WILL_PAY = "应付票据及应付账款"
+	//	COST_FIN      = "财务费用(万元)"
 	row++
 	myC = NewColumn()
-	f.SetCellValue("Sheet1", myC.String(row), DEBT_WILL_PAY_INVOICE)
-	rIndex = getRowIndex(DEBT_WILL_PAY_INVOICE, zcfzbResult)
-	debtWillPayList := zcfzbResult[rIndex]
-	valMap[DEBT_WILL_PAY_INVOICE] = debtWillPayList
+	f.SetCellValue("Sheet1", myC.String(row), COST_FIN)
+	rIndex = getRowIndex(COST_FIN, lrbResult)
+	costFinList := lrbResult[rIndex]
+	valMap[COST_FIN] = costFinList
 	for i := 0; i < columns; i++ {
-		f.SetCellValue("Sheet1", myC.String(row), debtWillPayList[i+1])
+		f.SetCellValue("Sheet1", myC.String(row), costFinList[i+1])
 	}
 
-	//	DEBT_WILL_PAY_MONEY   = "应付账款(万元)"
+	//	COST_RD       = "研发费用(万元)"
 	row++
 	myC = NewColumn()
-	f.SetCellValue("Sheet1", myC.String(row), DEBT_WILL_PAY_MONEY)
-	rIndex = getRowIndex(DEBT_WILL_PAY_MONEY, zcfzbResult)
-	debtWillPayMoneyList := zcfzbResult[rIndex]
-	valMap[DEBT_WILL_PAY_MONEY] = debtWillPayMoneyList
+	f.SetCellValue("Sheet1", myC.String(row), COST_RD)
+	rIndex = getRowIndex(COST_RD, lrbResult)
+	costRDList := lrbResult[rIndex]
+	valMap[COST_RD] = costRDList
 	for i := 0; i < columns; i++ {
-		f.SetCellValue("Sheet1", myC.String(row), debtWillPayMoneyList[i+1])
+		f.SetCellValue("Sheet1", myC.String(row), costRDList[i+1])
 	}
-
 }
