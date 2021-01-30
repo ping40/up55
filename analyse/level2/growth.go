@@ -79,7 +79,7 @@ func GenGrowth(f *excelize.File, columns int, xjllbResult, growthResult, lrbResu
 	row++
 	f.SetRowHeight("Sheet1", row, 200)
 	myC = util.NewColumn()
-	f.SetCellValue("Sheet1", myC.String(row), `销售增长来源：
+	f.SetCellValue("Sheet1", myC.String(row), `公司的成长性观察：销售增长来源：
 1：销售更多的产品或服务（如啤酒整体市场增加或者本公司份额增加）
 2：提高价格
 3：销售新的产品或服务
