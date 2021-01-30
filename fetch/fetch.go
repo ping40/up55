@@ -21,7 +21,7 @@ func Fetch(code string) {
 	url := util.MakeZCFZBURL(code)
 	fileName := util.MakeZCFZBFileName(code)
 	if err := util.DownloadAndSave(url, dataDir, fileName); err != nil {
-		fmt.Println("fetch ", fileName, "failed ")
+		fmt.Println("zcfzb fetch ", fileName, "failed ")
 		panic(err)
 	}
 	time.Sleep(time.Second * 2)
@@ -29,7 +29,7 @@ func Fetch(code string) {
 	url = util.MakeLRBURL(code)
 	fileName = util.MakeLRBFileName(code)
 	if err := util.DownloadAndSave(url, dataDir, fileName); err != nil {
-		fmt.Println("fetch ", fileName, "failed ")
+		fmt.Println("lrb fetch ", fileName, "failed ")
 		panic(err)
 	}
 	time.Sleep(time.Second * 2)
@@ -37,7 +37,15 @@ func Fetch(code string) {
 	url = util.MakeXJLLBURL(code)
 	fileName = util.MakeXJLLBFileName(code)
 	if err := util.DownloadAndSave(url, dataDir, fileName); err != nil {
-		fmt.Println("fetch ", fileName, "failed ")
+		fmt.Println("xjllb fetch ", fileName, "failed ")
+		panic(err)
+	}
+	time.Sleep(time.Second * 2)
+
+	url = util.MakeGrowthURL(code)
+	fileName = util.MakeGrowthFileName(code)
+	if err := util.DownloadAndSave(url, dataDir, fileName); err != nil {
+		fmt.Println("growth fetch ", fileName, "failed ")
 		panic(err)
 	}
 }

@@ -5,6 +5,8 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/ping40/up55/util"
+
 	"github.com/360EntSecGroup-Skylar/excelize/v2"
 )
 
@@ -23,9 +25,9 @@ const (
 )
 
 func genAsset(f *excelize.File, columns int, zcfzbResult [][]string, lrbResult [][]string, valMap map[string][]string, row int) {
-	myC := NewColumn()
+	myC := util.NewColumn()
 	f.SetCellValue("Sheet1", myC.String(row), ASSET_FLOW)
-	rIndex := getRowIndex(ASSET_FLOW, zcfzbResult)
+	rIndex := util.GetRowIndex(ASSET_FLOW, zcfzbResult)
 	assetFlowList := zcfzbResult[rIndex]
 	valMap[ASSET_FLOW] = assetFlowList
 	for i := 0; i < columns; i++ {
@@ -33,9 +35,9 @@ func genAsset(f *excelize.File, columns int, zcfzbResult [][]string, lrbResult [
 	}
 
 	row++
-	myC = NewColumn()
+	myC = util.NewColumn()
 	f.SetCellValue("Sheet1", myC.String(row), ASSET_MONEY)
-	rIndex = getRowIndex(ASSET_MONEY, zcfzbResult)
+	rIndex = util.GetRowIndex(ASSET_MONEY, zcfzbResult)
 	assetMoneyList := zcfzbResult[rIndex]
 	valMap[ASSET_MONEY] = assetMoneyList
 	for i := 0; i < columns; i++ {
@@ -44,7 +46,7 @@ func genAsset(f *excelize.File, columns int, zcfzbResult [][]string, lrbResult [
 
 	// 应收
 	row++
-	myC = NewColumn()
+	myC = util.NewColumn()
 	f.SetCellValue("Sheet1", myC.String(row), ASSSET_WILL_GET)
 	assetWillGetList := getWillGetList(zcfzbResult)
 	//valMap[ASSSET_WILL_GET] = assetInvisibleList
@@ -54,9 +56,9 @@ func genAsset(f *excelize.File, columns int, zcfzbResult [][]string, lrbResult [
 
 	//"存货(万元)"
 	row++
-	myC = NewColumn()
+	myC = util.NewColumn()
 	f.SetCellValue("Sheet1", myC.String(row), ASSSET_COMMODITY)
-	rIndex = getRowIndex(ASSSET_COMMODITY, zcfzbResult)
+	rIndex = util.GetRowIndex(ASSSET_COMMODITY, zcfzbResult)
 	assetCommodityList := zcfzbResult[rIndex]
 	valMap[ASSSET_COMMODITY] = assetMoneyList
 	for i := 0; i < columns; i++ {
@@ -65,9 +67,9 @@ func genAsset(f *excelize.File, columns int, zcfzbResult [][]string, lrbResult [
 
 	//	"预付款项(万元)"
 	row++
-	myC = NewColumn()
+	myC = util.NewColumn()
 	f.SetCellValue("Sheet1", myC.String(row), ASSSET_HAVE_GOT)
-	rIndex = getRowIndex(ASSSET_HAVE_GOT, zcfzbResult)
+	rIndex = util.GetRowIndex(ASSSET_HAVE_GOT, zcfzbResult)
 	assetHaveGotList := zcfzbResult[rIndex]
 	valMap[ASSSET_HAVE_GOT] = assetHaveGotList
 	for i := 0; i < columns; i++ {
@@ -77,9 +79,9 @@ func genAsset(f *excelize.File, columns int, zcfzbResult [][]string, lrbResult [
 	// 非流动资产合计(万元)
 	row++
 	row++
-	myC = NewColumn()
+	myC = util.NewColumn()
 	f.SetCellValue("Sheet1", myC.String(row), ASSET_NO_FLOW)
-	rIndex = getRowIndex(ASSET_NO_FLOW, zcfzbResult)
+	rIndex = util.GetRowIndex(ASSET_NO_FLOW, zcfzbResult)
 	assetNoFlowList := zcfzbResult[rIndex]
 	valMap[ASSET_NO_FLOW] = assetNoFlowList
 	for i := 0; i < columns; i++ {
@@ -88,9 +90,9 @@ func genAsset(f *excelize.File, columns int, zcfzbResult [][]string, lrbResult [
 
 	//"固定资产(万元)"
 	row++
-	myC = NewColumn()
+	myC = util.NewColumn()
 	f.SetCellValue("Sheet1", myC.String(row), ASSET_FIXED)
-	rIndex = getRowIndex(ASSET_FIXED, zcfzbResult)
+	rIndex = util.GetRowIndex(ASSET_FIXED, zcfzbResult)
 	assetfixedList := zcfzbResult[rIndex]
 	valMap[ASSET_FIXED] = assetfixedList
 	for i := 0; i < columns; i++ {
@@ -99,9 +101,9 @@ func genAsset(f *excelize.File, columns int, zcfzbResult [][]string, lrbResult [
 
 	//无形资产
 	row++
-	myC = NewColumn()
+	myC = util.NewColumn()
 	f.SetCellValue("Sheet1", myC.String(row), ASSET_INVISIBLE)
-	rIndex = getRowIndex(ASSET_INVISIBLE, zcfzbResult)
+	rIndex = util.GetRowIndex(ASSET_INVISIBLE, zcfzbResult)
 	assetInvisibleList := zcfzbResult[rIndex]
 	valMap[XSGDQY] = assetInvisibleList
 	for i := 0; i < columns; i++ {
@@ -110,9 +112,9 @@ func genAsset(f *excelize.File, columns int, zcfzbResult [][]string, lrbResult [
 
 	//ASSET_REPUTATION = "商誉(万元)"
 	row++
-	myC = NewColumn()
+	myC = util.NewColumn()
 	f.SetCellValue("Sheet1", myC.String(row), ASSET_REPUTATION)
-	rIndex = getRowIndex(ASSET_REPUTATION, zcfzbResult)
+	rIndex = util.GetRowIndex(ASSET_REPUTATION, zcfzbResult)
 	assetReputationList := zcfzbResult[rIndex]
 	valMap[ASSET_REPUTATION] = assetReputationList
 	for i := 0; i < columns; i++ {
@@ -121,9 +123,9 @@ func genAsset(f *excelize.File, columns int, zcfzbResult [][]string, lrbResult [
 
 	//ASSET_LONG_WILL_GET = "长期应收款(万元)"
 	row++
-	myC = NewColumn()
+	myC = util.NewColumn()
 	f.SetCellValue("Sheet1", myC.String(row), ASSET_LONG_WILL_GET)
-	rIndex = getRowIndex(ASSET_LONG_WILL_GET, zcfzbResult)
+	rIndex = util.GetRowIndex(ASSET_LONG_WILL_GET, zcfzbResult)
 	assetLongWillGetList := zcfzbResult[rIndex]
 	valMap[ASSET_LONG_WILL_GET] = assetLongWillGetList
 	for i := 0; i < columns; i++ {
@@ -134,7 +136,7 @@ func genAsset(f *excelize.File, columns int, zcfzbResult [][]string, lrbResult [
 
 //应收  集合
 func getWillGetList(result [][]string) []int64 {
-	//fmt.Println("getRowIndex \n ")
+	//fmt.Println("GetRowIndex \n ")
 	var indices []int
 	for i := 0; i < len(result); i++ {
 		//	fmt.Println("all key:", result[i][0])

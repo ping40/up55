@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/ping40/up55/analyse/level2"
+
 	"github.com/ping40/up55/util"
 
 	"github.com/360EntSecGroup-Skylar/excelize/v2"
@@ -19,7 +21,7 @@ const (
 	MYMPS   = "基本每股收益"
 )
 
-func genHumanRead(code string, zcfzbResult, lrbResult, xjllbResult [][]string) {
+func genHumanRead(code string, zcfzbResult, lrbResult, xjllbResult, growthResult [][]string) {
 	columns := len(zcfzbResult[0]) - 1
 
 	fullFileName := util.MakeHumanReadFileName(fmt.Sprintf("%s-%d", code, time.Now().UnixNano()))
@@ -47,6 +49,10 @@ func genHumanRead(code string, zcfzbResult, lrbResult, xjllbResult [][]string) {
 	row = 40
 	genRevenue(f, columns, zcfzbResult, lrbResult, valMap, row)
 
+	//成长性
+	row = 50
+	level2.GenGrowth(f, columns, xjllbResult, growthResult, lrbResult, row)
+
 	// Save spreadsheet by the given path.
 	if err := f.SaveAs(fullFileName); err != nil {
 		fmt.Println(err)
@@ -57,27 +63,15 @@ func genHumanRead(code string, zcfzbResult, lrbResult, xjllbResult [][]string) {
 func genShare(f *excelize.File, columns int, zcfzbResult [][]string, lrbResult [][]string, row int) {
 
 	//第row行 基本每股收益
-	myC := NewColumn()
+	myC := util.NewColumn()
 	f.SetCellValue("Sheet1", myC.String(row), MYMPS)
-	rIndex := getRowIndex(MYMPS, lrbResult)
+	rIndex := util.GetRowIndex(MYMPS, lrbResult)
 	mympsList := lrbResult[rIndex]
 	for i := 0; i < columns; i++ {
 		f.SetCellValue("Sheet1", myC.String(row), mympsList[i+1])
 	}
 
-	myC = NewColumn()
+	myC = util.NewColumn()
 	f.SetCellValue("Sheet1", myC.String(row+1), "分红")
 
-}
-
-func getRowIndex(columnKey string, result [][]string) int {
-	//fmt.Println("getRowIndex \n ")
-	for i := 0; i < len(result); i++ {
-		//	fmt.Println("all key:", result[i][0])
-		if result[i][0] == columnKey {
-			return i
-		}
-	}
-	fmt.Println("找不到 关键词： ", columnKey)
-	panic("找不到 关键词： ")
 }

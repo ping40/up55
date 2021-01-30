@@ -33,7 +33,13 @@ func Anaylse(code string) {
 		panic(err)
 	}
 
-	genHumanRead(code, zcfzbResult, lrbResult, xjllbResult)
+	var growthResult [][]string
+	fileName = util.MakeGrowthFileName(code)
+	if err, growthResult = csvRead(filepath.Join(dataDir, fileName)); err != nil {
+		panic(err)
+	}
+
+	genHumanRead(code, zcfzbResult, lrbResult, xjllbResult, growthResult)
 }
 
 func csvRead(fullFileName string) (error, [][]string) {

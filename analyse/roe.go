@@ -4,12 +4,14 @@ import (
 	"fmt"
 	"strconv"
 
+	"github.com/ping40/up55/util"
+
 	"github.com/360EntSecGroup-Skylar/excelize/v2"
 )
 
 func genROE(f *excelize.File, columns int, zcfzbResult [][]string, lrbResult [][]string, valMap map[string][]string, row int) {
 	//第一行
-	myC := NewColumn()
+	myC := util.NewColumn()
 	f.SetCellValue("Sheet1", myC.String(row), "时间数据")
 	for i := 0; i < columns; i++ {
 		f.SetCellValue("Sheet1", myC.String(row), zcfzbResult[0][i+1])
@@ -17,9 +19,9 @@ func genROE(f *excelize.File, columns int, zcfzbResult [][]string, lrbResult [][
 
 	//第二行 总资产
 	row++
-	myC = NewColumn()
+	myC = util.NewColumn()
 	f.SetCellValue("Sheet1", myC.String(row), ZZC)
-	rIndex := getRowIndex(ZZC, zcfzbResult)
+	rIndex := util.GetRowIndex(ZZC, zcfzbResult)
 	zzcList := zcfzbResult[rIndex]
 	valMap[ZZC] = zzcList
 	for i := 0; i < columns; i++ {
@@ -28,9 +30,9 @@ func genROE(f *excelize.File, columns int, zcfzbResult [][]string, lrbResult [][
 
 	//第三行 总净利润
 	row++
-	myC = NewColumn()
+	myC = util.NewColumn()
 	f.SetCellValue("Sheet1", myC.String(row), ZJLR)
-	rIndex = getRowIndex(ZJLR, lrbResult)
+	rIndex = util.GetRowIndex(ZJLR, lrbResult)
 	zjlrList := lrbResult[rIndex]
 	valMap[ZJLR] = zjlrList
 	for i := 0; i < columns; i++ {
@@ -39,7 +41,7 @@ func genROE(f *excelize.File, columns int, zcfzbResult [][]string, lrbResult [][
 
 	//第四行 总roe
 	row++
-	myC = NewColumn()
+	myC = util.NewColumn()
 	f.SetCellValue("Sheet1", myC.String(row), "总roe")
 	for i := 0; i < columns; i++ {
 		roe := getAROE(zzcList[i+1], zjlrList[i+1])
@@ -51,9 +53,9 @@ func genROE(f *excelize.File, columns int, zcfzbResult [][]string, lrbResult [][
 	// 第6行 少数股东权益(万元)
 	row++
 	row++
-	myC = NewColumn()
+	myC = util.NewColumn()
 	f.SetCellValue("Sheet1", myC.String(row), XSGDQY)
-	rIndex = getRowIndex(XSGDQY, zcfzbResult)
+	rIndex = util.GetRowIndex(XSGDQY, zcfzbResult)
 	xsgdqyList := zcfzbResult[rIndex]
 	valMap[XSGDQY] = xsgdqyList
 	for i := 0; i < columns; i++ {
@@ -62,9 +64,9 @@ func genROE(f *excelize.File, columns int, zcfzbResult [][]string, lrbResult [][
 
 	//第7行 少数股东损益(万元)
 	row++
-	myC = NewColumn()
+	myC = util.NewColumn()
 	f.SetCellValue("Sheet1", myC.String(row), XSGDSY)
-	rIndex = getRowIndex(XSGDSY, lrbResult)
+	rIndex = util.GetRowIndex(XSGDSY, lrbResult)
 	xsgdsyList := lrbResult[rIndex]
 	valMap[XSGDSY] = xsgdsyList
 	for i := 0; i < columns; i++ {
@@ -73,7 +75,7 @@ func genROE(f *excelize.File, columns int, zcfzbResult [][]string, lrbResult [][
 
 	//第8行 少数股东roe
 	row++
-	myC = NewColumn()
+	myC = util.NewColumn()
 	f.SetCellValue("Sheet1", myC.String(row), "少数股东roe")
 	for i := 0; i < columns; i++ {
 		roe := getAROE(xsgdqyList[i+1], xsgdsyList[i+1])
@@ -88,9 +90,9 @@ func genROE(f *excelize.File, columns int, zcfzbResult [][]string, lrbResult [][
 	// 第10行 归属于母公司股东权益合计(万元)
 	row++
 	row++
-	myC = NewColumn()
+	myC = util.NewColumn()
 	f.SetCellValue("Sheet1", myC.String(row), MYTOTAL)
-	rIndex = getRowIndex(MYTOTAL, zcfzbResult)
+	rIndex = util.GetRowIndex(MYTOTAL, zcfzbResult)
 	myTotalList := zcfzbResult[rIndex]
 	valMap[MYTOTAL] = myTotalList
 	for i := 0; i < columns; i++ {
@@ -99,9 +101,9 @@ func genROE(f *excelize.File, columns int, zcfzbResult [][]string, lrbResult [][
 
 	// 第11行 归属于母公司所有者的净利润(万元)
 	row++
-	myC = NewColumn()
+	myC = util.NewColumn()
 	f.SetCellValue("Sheet1", myC.String(row), MYROE)
-	rIndex = getRowIndex(MYROE, lrbResult)
+	rIndex = util.GetRowIndex(MYROE, lrbResult)
 	myRoeList := lrbResult[rIndex]
 	valMap[MYROE] = myRoeList
 	for i := 0; i < columns; i++ {
@@ -110,7 +112,7 @@ func genROE(f *excelize.File, columns int, zcfzbResult [][]string, lrbResult [][
 
 	//第12行 股东roe
 	row++
-	myC = NewColumn()
+	myC = util.NewColumn()
 	f.SetCellValue("Sheet1", myC.String(row), "股东roe")
 	for i := 0; i < columns; i++ {
 		roe := getAROE(myTotalList[i+1], myRoeList[i+1])
@@ -119,7 +121,7 @@ func genROE(f *excelize.File, columns int, zcfzbResult [][]string, lrbResult [][
 	}
 
 	row++
-	myC = NewColumn()
+	myC = util.NewColumn()
 	f.SetCellValue("Sheet1", myC.String(row), "观察点：股东roe，和少数股东roe 大小的差别")
 
 }
