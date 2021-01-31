@@ -9,7 +9,12 @@ import (
 	"github.com/360EntSecGroup-Skylar/excelize/v2"
 )
 
-func genROE(f *excelize.File, columns int, zcfzbResult [][]string, lrbResult [][]string, valMap map[string][]string, row int) {
+const (
+	ALL_ASSET_PROFIT = "总资产净利润率(%)"
+	NET_ASSET_PROFIT = "净资产收益率(%)"
+)
+
+func genROE(f *excelize.File, columns int, zcfzbResult [][]string, lrbResult, profitAbilityResult [][]string, valMap map[string][]string, row int) {
 	//第一行
 	myC := util.NewColumn()
 	f.SetCellValue("Sheet1", myC.String(row), "时间数据")
@@ -42,11 +47,10 @@ func genROE(f *excelize.File, columns int, zcfzbResult [][]string, lrbResult [][
 	//第四行 总roe
 	row++
 	myC = util.NewColumn()
-	f.SetCellValue("Sheet1", myC.String(row), "总roe")
+	f.SetCellValue("Sheet1", myC.String(row), ALL_ASSET_PROFIT)
+	rIndex = util.GetRowIndex(ALL_ASSET_PROFIT, profitAbilityResult)
 	for i := 0; i < columns; i++ {
-		roe := getAROE(zzcList[i+1], zjlrList[i+1])
-		fmt.Println("roe:", roe)
-		f.SetCellValue("Sheet1", myC.String(row), roe)
+		f.SetCellValue("Sheet1", myC.String(row), profitAbilityResult[rIndex][i+1])
 	}
 	// 第5行 空行
 
@@ -113,11 +117,10 @@ func genROE(f *excelize.File, columns int, zcfzbResult [][]string, lrbResult [][
 	//第12行 股东roe
 	row++
 	myC = util.NewColumn()
-	f.SetCellValue("Sheet1", myC.String(row), "股东roe")
+	f.SetCellValue("Sheet1", myC.String(row), NET_ASSET_PROFIT)
+	rIndex = util.GetRowIndex(NET_ASSET_PROFIT, profitAbilityResult)
 	for i := 0; i < columns; i++ {
-		roe := getAROE(myTotalList[i+1], myRoeList[i+1])
-		fmt.Println("roe:", roe)
-		f.SetCellValue("Sheet1", myC.String(row), roe)
+		f.SetCellValue("Sheet1", myC.String(row), profitAbilityResult[rIndex][i+1])
 	}
 
 	row++

@@ -39,7 +39,25 @@ func Anaylse(code string) {
 		panic(err)
 	}
 
-	genHumanRead(code, zcfzbResult, lrbResult, xjllbResult, growthResult)
+	var profitAbilityResult [][]string
+	fileName = util.MakeProfitabilityFileName(code)
+	if err, profitAbilityResult = csvRead(filepath.Join(dataDir, fileName)); err != nil {
+		panic(err)
+	}
+
+	var repayingAbilityResult [][]string
+	fileName = util.MakeRepayingAbilityFileName(code)
+	if err, repayingAbilityResult = csvRead(filepath.Join(dataDir, fileName)); err != nil {
+		panic(err)
+	}
+
+	var operationAbilityResult [][]string
+	fileName = util.MakeRepayingAbilityFileName(code)
+	if err, operationAbilityResult = csvRead(filepath.Join(dataDir, fileName)); err != nil {
+		panic(err)
+	}
+
+	genHumanRead(code, zcfzbResult, lrbResult, xjllbResult, growthResult, profitAbilityResult, repayingAbilityResult, operationAbilityResult)
 }
 
 func csvRead(fullFileName string) (error, [][]string) {

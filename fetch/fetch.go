@@ -48,4 +48,30 @@ func Fetch(code string) {
 		fmt.Println("growth fetch ", fileName, "failed ")
 		panic(err)
 	}
+	time.Sleep(time.Second * 2)
+
+	url = util.MakeProfitabilityURL(code)
+	fileName = util.MakeProfitabilityFileName(code)
+	if err := util.DownloadAndSave(url, dataDir, fileName); err != nil {
+		fmt.Println("growth fetch ", fileName, "failed ")
+		panic(err)
+	}
+	time.Sleep(time.Second * 2)
+
+	url = util.MakeRepayingAbilityURL(code)
+	fileName = util.MakeRepayingAbilityFileName(code)
+	if err := util.DownloadAndSave(url, dataDir, fileName); err != nil {
+		fmt.Println("growth fetch ", fileName, "failed ")
+		panic(err)
+	}
+
+	time.Sleep(time.Second * 2)
+
+	url = util.MakeOperationAbilityURL(code)
+	fileName = util.MakeOperationAbilityFileName(code)
+	if err := util.DownloadAndSave(url, dataDir, fileName); err != nil {
+		fmt.Println("growth fetch ", fileName, "failed ")
+		panic(err)
+	}
+
 }

@@ -7,11 +7,14 @@ import (
 )
 
 const (
-	DataDirectory = "data"
-	ZCFZB         = "zcfzb"
-	LRB           = "lrb"
-	XJLLB         = "xjllb"
-	Growth        = "growth"
+	DataDirectory    = "data"
+	ZCFZB            = "zcfzb"
+	LRB              = "lrb"
+	XJLLB            = "xjllb"
+	Growth           = "growth"
+	Profitability    = "profitability"
+	RepayingAbility  = "rapayingAbility"
+	OperationAbility = "operationAbility"
 )
 
 var currentDir string
@@ -42,6 +45,18 @@ func MakeGrowthFileName(code string) string {
 	return Growth + code + ".csv"
 }
 
+func MakeProfitabilityFileName(code string) string {
+	return Profitability + code + ".csv"
+}
+
+func MakeOperationAbilityFileName(code string) string {
+	return OperationAbility + code + ".csv"
+}
+
+func MakeRepayingAbilityFileName(code string) string {
+	return RepayingAbility + code + ".csv"
+}
+
 func MakeHumanReadFileName(code string) string {
 	return filepath.Join(currentDir, DataDirectory, "humanread_"+code+".xlsx")
 }
@@ -53,6 +68,18 @@ func MakeZCFZBURL(code string) string {
 // 成长性
 func MakeGrowthURL(code string) string {
 	return "http://quotes.money.163.com/service/zycwzb_" + code + ".html?type=year&part=cznl"
+}
+
+// 盈利能力
+func MakeProfitabilityURL(code string) string {
+	return "http://quotes.money.163.com/service/zycwzb_" + code + ".html?type=year&part=ylnl"
+}
+func MakeRepayingAbilityURL(code string) string {
+	return "http://quotes.money.163.com/service/zycwzb_" + code + ".html?type=year&part=chnl"
+}
+
+func MakeOperationAbilityURL(code string) string {
+	return "http://quotes.money.163.com/service/zycwzb_" + code + ".html?type=year&part=yynl"
 }
 
 func MakeLRBFileName(code string) string {

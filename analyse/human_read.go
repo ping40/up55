@@ -21,7 +21,7 @@ const (
 	MYMPS   = "基本每股收益"
 )
 
-func genHumanRead(code string, zcfzbResult, lrbResult, xjllbResult, growthResult [][]string) {
+func genHumanRead(code string, zcfzbResult, lrbResult, xjllbResult, growthResult, profitAbilityResult, repayingAbilityResult, operationAbilityResult [][]string) {
 	columns := len(zcfzbResult[0]) - 1
 
 	fullFileName := util.MakeHumanReadFileName(fmt.Sprintf("%s-%d", code, time.Now().UnixNano()))
@@ -31,7 +31,7 @@ func genHumanRead(code string, zcfzbResult, lrbResult, xjllbResult, growthResult
 	valMap := map[string][]string{}
 
 	row := 1
-	genROE(f, columns, zcfzbResult, lrbResult, valMap, row)
+	genROE(f, columns, zcfzbResult, lrbResult, profitAbilityResult, valMap, row)
 
 	row = 15
 	genShare(f, columns, zcfzbResult, lrbResult, row)
