@@ -1,6 +1,7 @@
 package level2
 
 import (
+	"fmt"
 	"github.com/360EntSecGroup-Skylar/excelize/v2"
 
 	"github.com/ping40/up55/util"
@@ -78,6 +79,7 @@ func GenGrowth(f *excelize.File, columns int, xjllbResult, growthResult, lrbResu
 
 	row++
 	f.SetRowHeight("Sheet1", row, 200)
+	f.MergeCell("Sheet1", fmt.Sprintf("A%d", row), fmt.Sprintf("M%d", row))
 	myC = util.NewColumn()
 	f.SetCellValue("Sheet1", myC.String(row), `公司的成长性观察：销售增长来源：
 1：销售更多的产品或服务（如啤酒整体市场增加或者本公司份额增加）

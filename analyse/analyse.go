@@ -52,7 +52,7 @@ func Anaylse(code string) {
 	}
 
 	var operationAbilityResult [][]string
-	fileName = util.MakeRepayingAbilityFileName(code)
+	fileName = util.MakeOperationAbilityFileName(code)
 	if err, operationAbilityResult = csvRead(filepath.Join(dataDir, fileName)); err != nil {
 		panic(err)
 	}

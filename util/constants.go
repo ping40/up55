@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"strings"
 )
 
 const (
@@ -100,7 +101,7 @@ func GetRowIndex(columnKey string, result [][]string) int {
 	//fmt.Println("GetRowIndex \n ")
 	for i := 0; i < len(result); i++ {
 		//	fmt.Println("all key:", result[i][0])
-		if result[i][0] == columnKey {
+		if strings.Trim(result[i][0], " ") == strings.Trim(columnKey, " ") {
 			return i
 		}
 	}

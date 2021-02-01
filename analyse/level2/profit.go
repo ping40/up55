@@ -1,94 +1,127 @@
 package level2
 
 import (
+	"fmt"
 	"github.com/360EntSecGroup-Skylar/excelize/v2"
 
 	"github.com/ping40/up55/util"
 )
 
 const (
-	GROWTH_TOTAL_INCOME = "主营业务收入增长率(%)"
-	GROWTH_NET_PROFIT   = "净利润增长率(%)"
-	GROWTH_NET_ASSET    = "净资产增长率(%)"
-	GROWTH_ASSET        = "总资产增长率(%)"
+	PROFIT_ROE             = "净资产收益率(%)"
+	PROFIT_ALL_ASSET       = "总资产净利润率(%)"
+	PROFIT_ALL_ASSET_ROUND = "总资产周转率(次)"
+	PROFIT_SALES           = "销售净利率(%)" //报表给的数据有错误的
+	PROFIT_SALES_1         = "归属于母公司所有者的净利润(万元)"
+	PROFIT_SALES_2         = "营业总收入(万元)"
+	PROFIT_ADDED           = "现金及现金等价物净增加额(万元)"
 
-	GROWTH_NET_MONEY        = " 期末现金及现金等价物余额(万元)"
-	GROWTH_INCOME_PER_SHARE = "基本每股收益"
+	PROFIT_MAIN_TOTAL       = "经营活动现金流入小计(万元)"
+	PROFIT_MAIN_TOTAL_ADDED = "经营活动产生的现金流量净额(万元)"
 )
 
-func GenProfit(f *excelize.File, columns int, xjllbResult, growthResult, lrbResult [][]string, row int) {
-	// GROWTH_TOTAL_INCOME ="主营业务收入增长率(%)"
+func GenProfit(f *excelize.File, columns int, profitAbilityResult, operationAbilityResult, lrbResult, xjllbResult [][]string, row int) {
+	//PROFIT_ROE = "净资产收益率(%)"
 	myC := util.NewColumn()
-	f.SetCellValue("Sheet1", myC.String(row), GROWTH_TOTAL_INCOME)
-	rIndex := util.GetRowIndex(GROWTH_TOTAL_INCOME, growthResult)
-	growthTotalIncomeList := growthResult[rIndex]
+	f.SetCellValue("Sheet1", myC.String(row), PROFIT_ROE)
+	rIndex := util.GetRowIndex(PROFIT_ROE, profitAbilityResult)
+	profitROEList := profitAbilityResult[rIndex]
 	for i := 0; i < columns; i++ {
-		f.SetCellValue("Sheet1", myC.String(row), growthTotalIncomeList[i+1])
+		f.SetCellValue("Sheet1", myC.String(row), profitROEList[i+1])
 	}
 
-	//GROWTH_NET_PROFIT ="净利润增长率(%)"
+	//PROFIT_ALL_ASSET = "总资产净利润率(%)"
 	row++
 	myC = util.NewColumn()
-	f.SetCellValue("Sheet1", myC.String(row), GROWTH_NET_PROFIT)
-	rIndex = util.GetRowIndex(GROWTH_NET_PROFIT, growthResult)
-	growthNetProfitList := growthResult[rIndex]
+	f.SetCellValue("Sheet1", myC.String(row), PROFIT_ALL_ASSET)
+	rIndex = util.GetRowIndex(PROFIT_ALL_ASSET, profitAbilityResult)
+	profitAllAssetList := profitAbilityResult[rIndex]
 	for i := 0; i < columns; i++ {
-		f.SetCellValue("Sheet1", myC.String(row), growthNetProfitList[i+1])
+		f.SetCellValue("Sheet1", myC.String(row), profitAllAssetList[i+1])
 	}
 
-	//GROWTH_NET_ASSET    = "净资产增长率(%)"
+	//权益乘数
 	row++
 	myC = util.NewColumn()
-	f.SetCellValue("Sheet1", myC.String(row), GROWTH_NET_ASSET)
-	rIndex = util.GetRowIndex(GROWTH_NET_ASSET, growthResult)
-	growthNetAssetList := growthResult[rIndex]
+	f.SetCellValue("Sheet1", myC.String(row), "权益乘数")
 	for i := 0; i < columns; i++ {
-		f.SetCellValue("Sheet1", myC.String(row), growthNetAssetList[i+1])
+		f.SetCellValue("Sheet1", myC.String(row), util.GenPercent(profitAllAssetList[i+1], profitROEList[i+1]))
 	}
 
-	//GROWTH_ASSET        = "资产增长率(%)"
+	// PROFIT_ALL_ASSET_ROUND = "总资产周转率(次)"
 	row++
 	myC = util.NewColumn()
-	f.SetCellValue("Sheet1", myC.String(row), GROWTH_ASSET)
-	rIndex = util.GetRowIndex(GROWTH_ASSET, growthResult)
-	growthAssetList := growthResult[rIndex]
+	f.SetCellValue("Sheet1", myC.String(row), PROFIT_ALL_ASSET_ROUND)
+	rIndex = util.GetRowIndex(PROFIT_ALL_ASSET_ROUND, operationAbilityResult)
+	profitAllAssetRoundList := operationAbilityResult[rIndex]
 	for i := 0; i < columns; i++ {
-		f.SetCellValue("Sheet1", myC.String(row), growthAssetList[i+1])
+		f.SetCellValue("Sheet1", myC.String(row), profitAllAssetRoundList[i+1])
 	}
 
-	//GROWTH_INCOME_PER_SHARE = "基本每股收益"
+	//PROFIT_SALES           = "销售净利率(%)" //报表给的数据有错误的
+	//PROFIT_SALES_1         = "归属于母公司所有者的净利润(万元)"
+	//PROFIT_SALES_2         = "营业总收入(万元)"
 	row++
 	myC = util.NewColumn()
-	f.SetCellValue("Sheet1", myC.String(row), GROWTH_INCOME_PER_SHARE)
-	rIndex = util.GetRowIndex(GROWTH_INCOME_PER_SHARE, lrbResult)
-	growthIncomePerShareList := lrbResult[rIndex]
+	f.SetCellValue("Sheet1", myC.String(row), PROFIT_SALES)
+	rIndex = util.GetRowIndex(PROFIT_SALES_1, lrbResult)
+	PROFIT_SALES_1_List := lrbResult[rIndex]
+	rIndex = util.GetRowIndex(PROFIT_SALES_2, lrbResult)
+	PROFIT_SALES_2_List := lrbResult[rIndex]
 	for i := 0; i < columns; i++ {
-		f.SetCellValue("Sheet1", myC.String(row), growthIncomePerShareList[i+1])
+		f.SetCellValue("Sheet1", myC.String(row), util.GenPercent(PROFIT_SALES_2_List[i+1], PROFIT_SALES_1_List[i+1]))
 	}
 
-	//GROWTH_NET_MONEY        = "期末现金及现金等价物余额(万元)"
+	//PROFIT_ADDED = "现金及现金等价物净增加额(万元)"
 	row++
 	myC = util.NewColumn()
-	f.SetCellValue("Sheet1", myC.String(row), GROWTH_NET_MONEY)
-	rIndex = util.GetRowIndex(GROWTH_NET_MONEY, xjllbResult)
-	growthNetMoenyList := xjllbResult[rIndex]
+	f.SetCellValue("Sheet1", myC.String(row), "自由现金流比率")
+	rIndex = util.GetRowIndex(PROFIT_ADDED, xjllbResult)
+	profitAddedList := xjllbResult[rIndex]
 	for i := 0; i < columns; i++ {
-		f.SetCellValue("Sheet1", myC.String(row), growthNetMoenyList[i+1])
+		f.SetCellValue("Sheet1", myC.String(row), util.GenPercent(PROFIT_SALES_2_List[i+1], profitAddedList[i+1]))
+	}
+
+	//PROFIT_MAIN_TOTAL       = "销售商品、提供劳务收到的现金(万元)"
+	row++
+	myC = util.NewColumn()
+	f.SetCellValue("Sheet1", myC.String(row), PROFIT_MAIN_TOTAL)
+	rIndex = util.GetRowIndex(PROFIT_MAIN_TOTAL, xjllbResult)
+	profitMainTotal := xjllbResult[rIndex]
+	for i := 0; i < columns; i++ {
+		f.SetCellValue("Sheet1", myC.String(row), profitMainTotal[i+1])
+	}
+
+	//	PROFIT_MAIN_TOTAL_ADDED = "经营活动产生的现金流量净额(万元)"
+	row++
+	myC = util.NewColumn()
+	f.SetCellValue("Sheet1", myC.String(row), PROFIT_MAIN_TOTAL_ADDED)
+	rIndex = util.GetRowIndex(PROFIT_MAIN_TOTAL_ADDED, xjllbResult)
+	profitMainTotalAdded := xjllbResult[rIndex]
+	for i := 0; i < columns; i++ {
+		f.SetCellValue("Sheet1", myC.String(row), profitMainTotalAdded[i+1])
+	}
+
+	//PROFIT_ADDED = "现金及现金等价物净增加额(万元)"
+	row++
+	myC = util.NewColumn()
+	f.SetCellValue("Sheet1", myC.String(row), "经营活动产生的自由现金流比率")
+	for i := 0; i < columns; i++ {
+		f.SetCellValue("Sheet1", myC.String(row), util.GenPercent(profitMainTotal[i+1], profitMainTotalAdded[i+1]))
 	}
 
 	row++
 	f.SetRowHeight("Sheet1", row, 200)
+	f.MergeCell("Sheet1", fmt.Sprintf("A%d", row), fmt.Sprintf("M%d", row))
 	myC = util.NewColumn()
-	f.SetCellValue("Sheet1", myC.String(row), `公司的成长性观察：销售增长来源：
-1：销售更多的产品或服务（如啤酒整体市场增加或者本公司份额增加）
-2：提高价格
-3：销售新的产品或服务
-4：购买其他公司 （危险）
+	f.SetCellValue("Sheet1", myC.String(row), `公司的收益性观察：
+自由现金流比率=现金及现金等价物净增加额(万元)/营业收入
+自由现金流比率 >= 5%, roe> 15%: 优秀企业
+2014~2019， roe>15%, 520家， >10%, 1300家
+2014~2019， 自由现金流比率>10%, 440家
 
-同一个产品或服务增长：要么价格提升，要么行业规模增加，要么本公司份额增加
+低风险公司，
 
-销售增长很难伪造的，盈利增长的欺骗方法很多，如改变税率，股份数，一次性所得，削减成本
-一般情况，公司赢利增长超过销售增长一段时间，也是值得怀疑的
+
 `)
-
 }

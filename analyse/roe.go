@@ -82,7 +82,7 @@ func genROE(f *excelize.File, columns int, zcfzbResult [][]string, lrbResult, pr
 	myC = util.NewColumn()
 	f.SetCellValue("Sheet1", myC.String(row), "少数股东roe")
 	for i := 0; i < columns; i++ {
-		roe := getAROE(xsgdqyList[i+1], xsgdsyList[i+1])
+		roe := util.GenPercent(xsgdqyList[i+1], xsgdsyList[i+1])
 		fmt.Println("roe:", roe)
 		f.SetCellValue("Sheet1", myC.String(row), roe)
 	}
@@ -127,15 +127,6 @@ func genROE(f *excelize.File, columns int, zcfzbResult [][]string, lrbResult, pr
 	myC = util.NewColumn()
 	f.SetCellValue("Sheet1", myC.String(row), "观察点：股东roe，和少数股东roe 大小的差别")
 
-}
-
-func getAROE(s1 string, s2 string) string {
-	s1f, e1 := strconv.ParseFloat(s1, 10)
-	s2f, e2 := strconv.ParseFloat(s2, 10)
-	if e1 == nil && e2 == nil && s1f > 0 {
-		return fmt.Sprintf("%.2f%%", 100*s2f/s1f)
-	}
-	return "--"
 }
 
 func getInt64(s string) int64 {
