@@ -3,6 +3,8 @@ package level2
 import (
 	"fmt"
 	"github.com/360EntSecGroup-Skylar/excelize/v2"
+	_ "image/png"
+	"io/ioutil"
 
 	"github.com/ping40/up55/util"
 )
@@ -111,8 +113,8 @@ func GenProfit(f *excelize.File, columns int, profitAbilityResult, operationAbil
 	}
 
 	row++
-	f.SetRowHeight("Sheet1", row, 200)
-	f.MergeCell("Sheet1", fmt.Sprintf("A%d", row), fmt.Sprintf("M%d", row))
+	f.SetRowHeight("Sheet1", row, 300)
+	f.MergeCell("Sheet1", fmt.Sprintf("A%d", row), fmt.Sprintf("G%d", row))
 	myC = util.NewColumn()
 	f.SetCellValue("Sheet1", myC.String(row), `公司的收益性观察：
 自由现金流比率=现金及现金等价物净增加额(万元)/营业收入
@@ -121,7 +123,18 @@ func GenProfit(f *excelize.File, columns int, profitAbilityResult, operationAbil
 2014~2019， 自由现金流比率>10%, 440家
 
 低风险公司，
-
-
 `)
+
+	f.MergeCell("Sheet1", fmt.Sprintf("H%d", row), fmt.Sprintf("M%d", row))
+	file, err := ioutil.ReadFile("./img/shouyilv.png")
+	if err != nil {
+		panic(err)
+	}
+
+	if err = f.AddPictureFromBytes("Sheet1", fmt.Sprintf("H%d", row), `{
+        "x_scale": 0.7,
+        "y_scale": 0.7      
+    }`, "excel logo", ".png", file); err != nil {
+		panic(err)
+	}
 }
