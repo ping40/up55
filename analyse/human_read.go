@@ -61,6 +61,10 @@ func genHumanRead(code string, zcfzbResult, lrbResult, xjllbResult, growthResult
 	row = 80
 	level2.GenRepayAbility(f, columns, repayingAbilityResult, row)
 
+	//财务健康风险
+	row = 100
+	level2.GenBigShorts(f, row)
+
 	// Save spreadsheet by the given path.
 	if err := f.SaveAs(fullFileName); err != nil {
 		fmt.Println(err)
