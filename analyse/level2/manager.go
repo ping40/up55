@@ -2,6 +2,7 @@ package level2
 
 import (
 	"fmt"
+
 	"github.com/360EntSecGroup-Skylar/excelize/v2"
 
 	"github.com/ping40/up55/util"
@@ -11,7 +12,7 @@ const ()
 
 func GenManagement(f *excelize.File, row int) {
 
-	f.SetRowHeight("Sheet1", row, 70)
+	f.SetRowHeight("Sheet1", row, 120)
 	f.MergeCell("Sheet1", fmt.Sprintf("A%d", row), fmt.Sprintf("G%d", row))
 	myC := util.NewColumn()
 	f.SetCellValue("Sheet1", myC.String(row), `管理：

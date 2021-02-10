@@ -13,3 +13,12 @@ func GenPercent(base string, upNumber string) string {
 	}
 	return "--"
 }
+
+func GenGowth(thisYear string, oldYear string) string {
+	ty, e1 := strconv.ParseFloat(thisYear, 10)
+	oy, e2 := strconv.ParseFloat(oldYear, 10)
+	if e1 == nil && e2 == nil && oy > 0 {
+		return fmt.Sprintf("%.2f%%", 100*(ty-oy)/oy)
+	}
+	return "--"
+}

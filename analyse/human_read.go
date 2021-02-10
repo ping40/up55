@@ -50,23 +50,23 @@ func genHumanRead(code string, zcfzbResult, lrbResult, xjllbResult, growthResult
 	genRevenue(f, columns, zcfzbResult, lrbResult, valMap, row)
 
 	//成长性
-	row = 50
+	row = 60
 	level2.GenGrowth(f, columns, xjllbResult, growthResult, lrbResult, row)
 
 	//收益性
-	row = 60
+	row = 70
 	level2.GenProfit(f, columns, profitAbilityResult, operationAbilityResult, lrbResult, xjllbResult, row)
 
 	//财务健康风险
-	row = 80
+	row = 90
 	level2.GenRepayAbility(f, columns, repayingAbilityResult, row)
 
 	//财务健康风险
-	row = 100
+	row = 110
 	level2.GenBigShorts(f, row)
 
 	//公司管理层
-	row = 110
+	row = 120
 	level2.GenManagement(f, row)
 
 	// Save spreadsheet by the given path.
